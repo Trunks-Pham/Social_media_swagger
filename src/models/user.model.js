@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -54,6 +54,5 @@ userSchema.index({ nickName: 1 }, { unique: true });
 userSchema.index({ email: 1 }, { unique: true });
 userSchema.index({ phoneNumber: 1 }, { unique: true });
 
-const User = mongoose.model('User', userSchema);
+module.exports = mongoose.model("User", userSchema);
 
-module.exports = User;

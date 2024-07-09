@@ -40,6 +40,7 @@ exports.getAllUsers = async (req, res) => {
     }
 };
 
+
 // Lấy thông tin người dùng theo ID
 exports.getUserDetail = async (req, res) => {
     const { id } = req.params;

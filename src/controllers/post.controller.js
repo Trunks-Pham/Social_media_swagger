@@ -1,7 +1,6 @@
 const Post = require("../models/post.model");
 const userModel = require("../models/user.model");
 
-
 // Tạo một bài viết mới
 exports.createPost = async (req, res) => {
     const { title, content, dateCreated, userId } = req.body;
@@ -91,6 +90,9 @@ exports.deletePost = async (req, res) => {
     }
 };
 
+
+
+
 // Middleware để lấy một bài viết cụ thể theo ID
 exports.getPost = async (req, res, next) => {
     try {
@@ -104,3 +106,6 @@ exports.getPost = async (req, res, next) => {
         res.status(500).json({ message: err.message });
     }
 };
+
+
+

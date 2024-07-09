@@ -4,45 +4,82 @@ const postController = require("../../controllers/post.controller");
 
 /**
  * @swagger
- * tags:
- *   name: Posts
- *   description: API for posts
+ * components:
+ *   schemas:
+ *     Post:
+ *       type: object
+ *       required:
+ *         - title
+ *         - content
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: The auto-generated id of the post
+ *         title:
+ *           type: string
+ *           description: The title of the post
+ *         content:
+ *           type: string
+ *           description: The content of the post
+ *       example:
+ *         id: d5fE_asz
+ *         title: Post Title
+ *         content: Post Content
  */
 
 /**
  * @swagger
- * /posts:
+ * tags:
+ *   name: Posts
+ *   description: The posts managing API
+ */
+
+/**
+ * @swagger
+ * /api/v1/post:
  *   get:
- *     summary: Get all posts
+ *     summary: Returns the list of all the posts
  *     tags: [Posts]
  *     responses:
  *       200:
- *         description: A list of posts
+ *         description: The list of the posts
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Post'
  */
 router.get('/', postController.getAllPosts);
 
 /**
  * @swagger
- * /posts/{id}:
+ * /api/v1/post/{id}:
  *   get:
- *     summary: Get a specific post by ID
+ *     summary: Get a post by ID
  *     tags: [Posts]
  *     parameters:
  *       - in: path
  *         name: id
- *         required: true
  *         schema:
  *           type: string
+ *         required: true
  *         description: The post ID
  *     responses:
  *       200:
- *         description: A single post
+ *         description: The post description by ID
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Post'
+ *       404:
+ *         description: The post was not found
  */
-router.get('/:id', postController.getPostById);
+router.get('/:id', postController.getPost, postController.getPostById);
 
 /**
  * @swagger
- * /posts:
+ * /api/v1/post:
  *   post:
  *     summary: Create a new post
  *     tags: [Posts]
@@ -51,65 +88,71 @@ router.get('/:id', postController.getPostById);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               title:
- *                 type: string
- *               content:
- *                 type: string
+ *             $ref: '#/components/schemas/Post'
  *     responses:
- *       201:
- *         description: Created
+ *       200:
+ *         description: The post was successfully created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Post'
+ *       500:
+ *         description: Some server error
  */
 router.post('/', postController.createPost);
 
 /**
  * @swagger
- * /posts/{id}:
+ * /api/v1/post/{id}:
  *   put:
- *     summary: Update an existing post
+ *     summary: Update a post by ID
  *     tags: [Posts]
  *     parameters:
  *       - in: path
  *         name: id
- *         required: true
  *         schema:
  *           type: string
+ *         required: true
  *         description: The post ID
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               title:
- *                 type: string
- *               content:
- *                 type: string
+ *             $ref: '#/components/schemas/Post'
  *     responses:
  *       200:
- *         description: Updated
+ *         description: The post was successfully updated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Post'
+ *       404:
+ *         description: The post was not found
+ *       500:
+ *         description: Some server error
  */
-router.put('/:id', postController.updatePost);
+router.put('/:id', postController.getPost, postController.updatePost);
 
 /**
  * @swagger
- * /posts/{id}:
+ * /api/v1/post/{id}:
  *   delete:
- *     summary: Delete a post
+ *     summary: Remove a post by ID
  *     tags: [Posts]
  *     parameters:
  *       - in: path
  *         name: id
- *         required: true
  *         schema:
  *           type: string
+ *         required: true
  *         description: The post ID
  *     responses:
  *       200:
- *         description: Deleted
+ *         description: The post was deleted
+ *       404:
+ *         description: The post was not found
  */
-router.delete('/:id', postController.deletePost);
+router.delete('/:id', postController.getPost, postController.deletePost);
 
 module.exports = router;
